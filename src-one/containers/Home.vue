@@ -32,7 +32,10 @@ export default {
   methods: {
     gethot(){
       axios.get('/api/hot').then(res=>{
-        this.books = res.data;
+        setTimeout(() => {
+          this.books = res.data;
+        }, 2000);
+        
     }).catch(err=>{
       console.log(err);
     })

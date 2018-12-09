@@ -1,7 +1,7 @@
 <template>
     <div class="page">
       <MHeader title="列表页"></MHeader>
-      <div class="scroll-content">
+      <div class="scroll-content" v-if="books.length">
         <ul class="list">
         <li v-for="(book,index) in books" :key="index">
           <img :src="book.bookCover" alt="">
@@ -22,11 +22,13 @@
       </ul>
       </div>
       
+      <Loading v-else></Loading>
     </div>
 </template>
 <script>
 import MHeader from "../components/Header";
 import axios from "axios";
+import Loading from '../components/Loading'
 export default {
   data() {
     return {
@@ -37,7 +39,10 @@ export default {
   methods: {
     getbooks() {
       axios.get("/api/book").then(res => {
-        this.books = res.data;
+        setTimeout(() => {
+          this.books = res.data;
+        }, 2500);
+        
       });
     },
     remove(id){
@@ -46,7 +51,7 @@ export default {
       })
     }
   },
-  components: { MHeader },
+  components: { MHeader,Loading },
   computed: {},
   created() {
     this.getbooks();
